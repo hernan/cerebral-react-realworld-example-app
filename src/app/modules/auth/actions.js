@@ -1,16 +1,25 @@
 export function initUser({ props, state, storage, http }) {
-  const [authtype, token] = props.response.headers.authorization.split(' ', 2)
+  let authtype = 'Token'
+  let token
+
+  if (props.response.headers.authorization) {
+    [authtype, token] = props.response.headers.authorization.split(' ', 2)
+  } else {
+    token = props.response.result.user.token
+  }
+
   storage.set('jwtHeader', token)
   http.updateOptions({
     headers: {
       Authorization: authtype + ' ' + token,
     },
   })
+
   state.set('auth.authenticated', true)
   state.set('auth.currentUser.email', props.response.result.user.email)
   state.set('auth.currentUser.username', props.response.result.user.username)
-  state.set('auth.currentUser.image', props.response.result.user.image)
-  state.set('auth.currentUser.bio', props.response.result.user.bio)
+  state.set('auth.currentUser.image', props.response.result.user.image || null)
+  state.set('auth.currentUser.bio', props.response.result.user.bio || null)
 }
 
 export function removeUser({ state, storage, http }) {
