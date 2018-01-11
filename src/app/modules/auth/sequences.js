@@ -46,7 +46,6 @@ export const signinUser = sequence('Sign-in user', [
       set(state`auth.loginForm.user.password`, ''),
       set(state`errorMessages`, []),
       actions.initUser,
-      set(state`auth.loginFormIsLoading`, false),
       when(state`lastVisited`),
       {
         true: redirectToSignal(
@@ -60,10 +59,10 @@ export const signinUser = sequence('Sign-in user', [
     ],
     error: [
       set(state`auth.loginForm.user.password`, ''),
-      set(state`auth.loginFormIsLoading`, false),
       factories.showValidationError('Could not log-in!'),
     ],
   },
+  set(state`auth.loginFormIsLoading`, false),
 ])
 
 export const logoutUser = sequence('Log user out', [
