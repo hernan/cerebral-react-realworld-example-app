@@ -24,6 +24,11 @@ export const fetchProfile = sequence('Fetch profile', [
   set(state`profile.currentProfile`, props`response.result.profile`),
 ])
 
+export const fetchCurrentUser = sequence('Fetch current user', [
+  httpGet('/user'),
+  set(state`auth.currentUser`, props`response.result.user`),
+])
+
 export const fetchCreatedArticles = sequence('Fetch created articles', [
   httpGet(string`/articles?author=${state`profile.currentProfile.username`}`),
   mergeArticles,
