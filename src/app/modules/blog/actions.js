@@ -21,8 +21,5 @@ export function addComment({ props, state }) {
 }
 
 export function addTags({ props, state }) {
-  const tags = props.response.result.tags
-  for (const tag of tags) {
-    state.push(`blog.tags`, tag)
-  }
+  state.set('blog.tags', props.response.result.tags)
 }
