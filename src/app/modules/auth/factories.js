@@ -6,12 +6,11 @@ import { redirectToSignal } from '@cerebral/router/operators'
 function getValidationErrorMessages({ props }) {
   const errorMessages = Object.keys(props.error.response.result.errors).reduce(
     (errorMessages, errorField) => {
-      if (Array.isArray(props.error.response.result.errors[errorField])) {
-        errorMessages.push(
-          errorField +
-            ': ' +
-            props.error.response.result.errors[errorField].join(', ')
-        )
+      const fieldValue = props.error.response.result.errors[errorField]
+      if (Array.isArray(fieldValue)) {
+        errorMessages.push(`${errorField}: ${fieldValue.join(', ')}`)
+      } else {
+        errorMessages.push(`${errorField} ${fieldValue}`)
       }
       return errorMessages
     },
