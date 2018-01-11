@@ -12,12 +12,8 @@ export const registerUser = sequence('Register new user', [
   httpPost('/users', state`auth.registerForm`),
   {
     success: [
-      set(state`auth.registerForm.user.username`, ''),
-      set(state`auth.registerForm.user.email`, ''),
-      set(state`auth.registerForm.user.password`, ''),
-      set(state`errorMessages`, []),
+      actions.resetSignUpForm,
       actions.initUser,
-      set(state`auth.registerFormIsLoading`, false),
       when(state`lastVisited`),
       {
         true: redirectToSignal(
@@ -31,10 +27,10 @@ export const registerUser = sequence('Register new user', [
     ],
     error: [
       set(state`auth.registerForm.user.password`, ''),
-      set(state`auth.registerFormIsLoading`, false),
       factories.showValidationError('Could not register!'),
     ],
   },
+  set(state`auth.registerFormIsLoading`, false),
 ])
 
 export const signinUser = sequence('Sign-in user', [
@@ -42,9 +38,7 @@ export const signinUser = sequence('Sign-in user', [
   httpPost('/users/login', state`auth.loginForm`),
   {
     success: [
-      set(state`auth.loginForm.user.email`, ''),
-      set(state`auth.loginForm.user.password`, ''),
-      set(state`errorMessages`, []),
+      actions.resetLoginForm,
       actions.initUser,
       when(state`lastVisited`),
       {

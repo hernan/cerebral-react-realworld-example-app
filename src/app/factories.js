@@ -14,6 +14,7 @@ import {
   fetchFavoritedArticles,
 } from './modules/profile/sequences'
 import { authenticate } from './actions'
+import { resetLoginForm, resetSignUpForm } from './modules/auth/actions'
 
 export function routeTo(page, payload = {}) {
   return sequence('Route to', [
@@ -21,8 +22,8 @@ export function routeTo(page, payload = {}) {
     equals(state`currentPage`),
     {
       home: [set(state`lastVisited`, 'home'), fetchArticles, fetchTags],
-      login: [],
-      register: [],
+      login: [resetLoginForm],
+      register: [resetSignUpForm],
       settings: [set(state`lastVisited`, 'settings'), authenticate],
       article: [
         'slug' in payload

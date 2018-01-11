@@ -33,3 +33,16 @@ export function removeUser({ state, storage, http }) {
   state.set('auth.currentUser.email', '')
   state.set('auth.currentUser.username', '')
 }
+
+export function resetLoginForm({ state }) {
+  state.set(`auth.loginForm.user.email`, '')
+  state.set(`auth.loginForm.user.password`, '')
+  state.set(`errorMessages`, [])
+}
+
+export function resetSignUpForm({ state }) {
+  state.set(`auth.registerForm.user.username`, '')
+  state.set(`auth.registerForm.user.email`, '')
+  state.set(`auth.registerForm.user.password`, '')
+  state.set(`errorMessages`, [])
+}
